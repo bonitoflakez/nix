@@ -1,7 +1,4 @@
 { lib, pkgs, ... }:
-let
-  private = import ./private.nix;
-in
 {
   nixpkgs = {
     config = {
@@ -37,33 +34,34 @@ in
 
   programs.zsh = {
     enable = true;
-    sessionVariables = {
-      DONE = "yes.";
-    };
-    initExtra = ''
-      # If you come from bash you might have to change your $PATH.
-      export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/.config/emacs/bin:$PATH
 
-      # Path to your Oh My Zsh installation.
+    shellAliases = {
+      ll = "ls -l";
+      rbs = "sudo nixos-rebuild switch";
+    };
+
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" "zsh-autosuggestions" "fast-syntax-highlighting" ];
+      theme = "robbyrussell";
+    };
+
+    initExtra = ''
+      export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/.config/emacs/bin:$PATH
       export ZSH="$HOME/.oh-my-zsh"
 
-      # import gitconfig
+      # import git info
       if [ -f ~/home-manager/.gitprivate ]; then
          source ~/home-manager/.gitprivate
       fi
-
-      ZSH_THEME="robbyrussell"
-
-      plugins=(
-        git
-        zsh-autosuggestions
-        fast-syntax-highlighting
-                )
 
       source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
       source $ZSH/oh-my-zsh.sh
 
       # export MANPATH="/usr/local/man:$MANPATH"
+
+      source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+      source $ZSH/oh-my-zsh.sh
 
       # You may need to manually set your language environment
       # export LANG=en_US.UTF-8
@@ -77,10 +75,6 @@ in
 
       # Compilation flags
       # export ARCHFLAGS="-arch $(uname -m)"
-
-      # Example aliases
-      # alias zshconfig="mate ~/.zshrc"
-      # alias ohmyzsh="mate ~/.oh-my-zsh"
     '';
   };
 
