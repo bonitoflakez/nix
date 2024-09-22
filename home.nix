@@ -1,5 +1,4 @@
-{ lib, pkgs, ... };
-
+{ lib, pkgs, ... }:
 {
   home = {
     packages = with pkgs; [
@@ -8,8 +7,7 @@
 
     username = "syk";
     homeDirectory = "/home/syk";
-  
+
     stateVersion = "23.11";
   };
 }
-
